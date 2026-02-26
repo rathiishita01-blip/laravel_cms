@@ -1,0 +1,306 @@
+@extends('layout.frontend')
+
+@section('content')
+
+@php
+    // Expecting $page to be supplied
+    $grouped = $page->sections->groupBy('section_key');
+
+    $banners = $grouped->get('hero_banner', collect());
+    $pm = $grouped->get('pm_yojna', collect())->first();
+    $ministry = $grouped->get('ministry', collect())->first();
+    $aiia = $grouped->get('aiia', collect())->first();
+    $rntcp = $grouped->get('rntcp', collect())->first();
+    $roles = $grouped->get('roles', collect());
+
+    if (!function_exists('resolveStorageImage')) {
+        function resolveStorageImage($filename) {
+            if (empty($filename)) return null;
+            $disk = \Illuminate\Support\Facades\Storage::disk('public');
+            if ($disk->exists($filename)) return $filename;
+            if ($disk->exists('banners/'.$filename)) return 'banners/'.$filename;
+            if ($disk->exists('images/'.$filename)) return 'images/'.$filename;
+            return null;
+        }
+    }
+@endphp
+
+{{-- Banner / Carousel --}}
+@if($banners->count())
+    @php $carouselId = 'carouselExampleIndicators'; @endphp
+    <section class="bannersection">
+        <div id="{{ $carouselId }}" class="carousel slide" data-bs-ride="carousel" data-bs-interval="3000">
+            <div class="carousel-indicators">
+                @foreach($banners as $i => $b)
+                    <button type="button" data-bs-target="#{{ $carouselId }}" data-bs-slide-to="{{ $i }}" class="{{ $i==0 ? 'active' : '' }}" aria-current="{{ $i==0 ? 'true' : 'false' }}"></button>
+                @endforeach
+            </div>
+
+            <div class="carousel-inner">
+                @foreach($banners as $i => $b)
+                    @php $img = resolveStorageImage($b->image); @endphp
+                    <div class="carousel-item {{ $i==0 ? 'active' : '' }}">
+                        @if($img)
+                            <img src="{{ asset('storage/'.$img) }}" class="d-block w-100" alt="{{ $b->title ?? '' }}">
+                        @endif
+                    </div>
+                @endforeach
+            </div>
+
+            <button class="carousel-control-prev" type="button" data-bs-target="#{{ $carouselId }}" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon"></span>
+            </button>
+
+            <button class="carousel-control-next" type="button" data-bs-target="#{{ $carouselId }}" data-bs-slide="next">
+                <span class="carousel-control-next-icon"></span>
+            </button>
+        </div>
+    </section>
+@endif
+
+{{-- PM Yojna --}}
+@if($pm)
+    <section class="yojnasection">
+        <div class="container">
+            <div class="row g-4">
+                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                    <div class="main-card shadow-sm">
+                        @php $pmImg = resolveStorageImage($pm->image); @endphp
+                        @if($pmImg)
+                            <img src="{{ asset('storage/'.$pmImg) }}" class="banner-img" alt="{{ $pm->title }}">
+                        @endif
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                    <div class="d-flex flex-column gap-4 h-100 position-relative">
+                        <div class="info-card shadow-sm">
+                            <div class="section-heading">
+                                <span>{{ $pm->title ?? 'PM Yojna' }}</span>
+                                <h2>{{ $pm->title }}</h2>
+                            </div>
+                            <p class="mb-0">{!! nl2br(e($pm->description)) !!}</p>
+                        </div>
+
+                        {{-- PM subsections --}}
+                        @if($pm->subsections->count())
+                            <div class="row g-3">
+                                @foreach($pm->subsections as $sub)
+                                    <div class="col-md-8">
+                                        <div class="quote-card shadow-sm">
+                                            <p class="mb-3">{{ $sub->description }}</p>
+                                            <h5 class="mb-0">{{ $sub->title }}</h5>
+                                            <div class="quote-block"><i class="ri-double-quotes-l"></i></div>
+                                        </div>
+                                    </div>
+                                    @if($sub->image)
+                                        <div class="col-md-4">
+                                            <img src="{{ asset('storage/'.$sub->image) }}" class="pm-image shadow-sm w-100" alt="{{ $sub->title }}">
+                                        </div>
+                                    @endif
+                                @endforeach
+                            </div>
+                        @endif
+
+                        <div class="action-btn"><a href="#"><i class="ri-arrow-right-up-line"></i></a></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+@endif
+
+{{-- MoA Section --}}
+@if($ministry)
+    <section class="moasection">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6 mb-5 mb-lg-0">
+                    <div class="moacontentblock">
+                        <div class="section-heading">
+                            <span>Ministry of Ayush</span>
+                            <h2>{{ $ministry->title ?? 'About Ministry' }}</h2>
+                        </div>
+                        <p class="about-text">{!! nl2br(e($ministry->description)) !!}</p>
+
+                        {{-- Ministry subsections --}}
+                        @if($ministry->subsections->count())
+                            @foreach($ministry->subsections as $sub)
+                                <div class="highlight-box d-flex align-items-center justify-content-between mt-4">
+                                    <div class="d-flex align-items-center">
+                                        @if($sub->image)
+                                            <img src="{{ asset('storage/'.$sub->image) }}" class="rounded-circle me-3" width="60" height="60" alt="">
+                                        @endif
+                                        <div>
+                                            <h5>{{ $sub->title }}</h5>
+                                            <small>{{ $sub->description }}</small>
+                                        </div>
+                                    </div>
+                                        <h4 class="mb-0">FORMED ON 2014</h4>
+                                </div>
+                            @endforeach
+                        @endif
+
+                        <div class="btn-block"><a href="#" class="primary-btn">Learn More <i class="ri-arrow-right-up-line"></i><i class="ri-arrow-right-line"></i></a></div>
+                    </div>
+                </div>
+
+                <div class="col-lg-6">
+                    <div class="row g-4 image-area">
+                        <div class="green-shape"></div>
+
+                        {{-- Left column (first 2 images stacked) --}}
+                        <div class="col-6">
+                            @if(isset($ministry->images[0]))
+                                @php $img1 = resolveStorageImage($ministry->images[0]->image); @endphp
+                                @if($img1)
+                                    <div class="img-card shadow-sm mb-3" style="height:258px;">
+                                        <img src="{{ asset('storage/'.$img1) }}" alt="" class="img-fluid">
+                                    </div>
+                                @endif
+                            @endif
+
+                            @if(isset($ministry->images[1]))
+                                @php $img2 = resolveStorageImage($ministry->images[1]->image); @endphp
+                                @if($img2)
+                                    <div class="img-card shadow-sm" style="height:258px;">
+                                        <img src="{{ asset('storage/'.$img2) }}" alt="" class="img-fluid">
+                                    </div>
+                                @endif
+                            @endif
+                        </div>
+
+                        {{-- Right column (third tall image) --}}
+                        <div class="col-6">
+                            @if(isset($ministry->images[2]))
+                                @php $img3 = resolveStorageImage($ministry->images[2]->image); @endphp
+                                @if($img3)
+                                    <div class="img-card shadow-sm" style="height:530px;">
+                                        <img src="{{ asset('storage/'.$img3) }}" alt="" class="img-fluid">
+                                    </div>
+                                @endif
+                            @endif
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+@endif
+
+{{-- AIIA Section --}}
+@if($aiia)
+    <section class="aiiasection">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                    @if($aiia->image)
+                        <div class="image-block">
+                            <img src="{{ asset('storage/'.$aiia->image) }}" alt="{{ $aiia->title }}" class="img-fluid">
+                        </div>
+                    @endif
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                    <div class="section-heading">
+                        <span>About AIIA</span>
+                        <h2>{{ $aiia->title }}</h2>
+                    </div>
+                    <p>{!! nl2br(e($aiia->description)) !!}</p>
+
+                    {{-- Subsections --}}
+                    @if($aiia->subsections->count())
+                        @foreach($aiia->subsections as $sub)
+                            @if($sub->image)
+                                <img src="{{ asset('storage/'.$sub->image) }}" alt="{{ $sub->title }}" class="img-fluid mb-3">
+                            @endif
+                            <h5>{{ $sub->title }}</h5>
+                            <p>{{ $sub->description }}</p>
+                        @endforeach
+                    @endif
+
+                    <div class="btn-block"><a href="#" class="primary-btn">Learn More <i class="ri-arrow-right-up-line"></i><i class="ri-arrow-right-line"></i></a></div>
+                </div>
+            </div>
+        </div>
+    </section>
+@endif
+
+{{-- RNTCP Section --}}
+@if($rntcp)
+    <section class="rntcpsection">
+        <div class="container">
+            <div class="row align-items-end">
+                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                    <div class="section-heading">
+                        <span>About RNTCP</span>
+                        <h2>{{ $rntcp->title }}</h2>
+                    </div>
+                    <p>{!! nl2br(e($rntcp->description)) !!}</p>
+
+                    {{-- Subsections --}}
+                    @if($rntcp->subsections->count())
+                        @foreach($rntcp->subsections as $sub)
+                            <p>{{ $sub->description }}</p>
+                        @endforeach
+                    @endif
+                </div>
+
+                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                    <div class="objective-block">
+                        @if($rntcp->subsections->count())
+                            <h4 class="text-white pb-4 fw-semibold">Objectives of RNTCP:</h4>
+                            <div class="objective-list">
+                                @foreach($rntcp->subsections as $sub)
+                                    <div class="list-item d-flex pb-3">
+                                        <div class="icon"><i class="ri-arrow-right-circle-fill"></i></div>
+                                        <p>{{ $sub->description }}</p>
+                                    </div>
+                                @endforeach
+                            </div>
+                        @endif
+                        <div class="action-btn"><a href="#"><i class="ri-arrow-right-up-line"></i></a></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+@endif
+
+{{-- Roles Section --}}
+@if($roles->count())
+    <section class="rolsresponsibilitysection">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h2 class="text-center pb-5">Personals Roles and Responsibility</h2>
+                </div>
+            </div>
+            <div class="row">
+                @foreach($roles as $role)
+                    <div class="col-lg-4 col-md-4 col-sm-12">
+                        <div class="profile-card d-flex gap-3">
+                            @if($role->image)
+                                <div class="image">
+                                    <img src="{{ asset('storage/'.$role->image) }}" alt="{{ $role->title }}" class="img-fluid">
+                                </div>
+                            @endif
+                            <div class="content h-100">
+                                <h4>{{ $role->title }}</h4>
+                                <h6>{{ $role->description }}</h6>
+
+                                {{-- Subsections for role --}}
+                                @if($role->subsections->count())
+                                    @foreach($role->subsections as $sub)
+                                        <p>{{ $sub->description }}</p>
+                                    @endforeach
+                                @endif
+                            </div>
+                        </div>
+                    </div>
+                @endforeach
+            </div>
+        </div>
+    </section>
+@endif
+
+@endsection
