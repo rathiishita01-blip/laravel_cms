@@ -110,82 +110,77 @@
 @endif
 
 {{-- MoA Section --}}
+{{-- MoA Section --}}
 @if($ministry)
-    <section class="moasection">
-        <div class="container">
-            <div class="row align-items-center">
-                <div class="col-lg-6 mb-5 mb-lg-0">
-                    <div class="moacontentblock">
-                        <div class="section-heading">
-                            <span>Ministry of Ayush</span>
-                            <h2>{{ $ministry->title ?? 'About Ministry' }}</h2>
-                        </div>
-                        <p class="about-text">{!! nl2br(e($ministry->description)) !!}</p>
+<section class="moasection">
+    <div class="container">
+        <div class="row align-items-center">
 
-                        {{-- Ministry subsections --}}
-                        @if($ministry->subsections->count())
-                            @foreach($ministry->subsections as $sub)
-                                <div class="highlight-box d-flex align-items-center justify-content-between mt-4">
-                                    <div class="d-flex align-items-center">
-                                        @if($sub->image)
-                                            <img src="{{ asset('storage/'.$sub->image) }}" class="rounded-circle me-3" width="60" height="60" alt="">
-                                        @endif
-                                        <div>
-                                            <h5>{{ $sub->title }}</h5>
-                                            <small>{{ $sub->description }}</small>
-                                        </div>
+            <div class="col-lg-6 mb-5 mb-lg-0">
+                <div class="moacontentblock">
+                    <div class="section-heading">
+                        <span>Ministry of Ayush</span>
+                        <h2>{{ $ministry->title ?? 'About Ministry' }}</h2>
+                    </div>
+                    <p class="about-text">{!! nl2br(e($ministry->description)) !!}</p>
+
+                    {{-- Ministry subsections --}}
+                    @if($ministry->subsections->count())
+                        @foreach($ministry->subsections as $sub)
+                            <div class="highlight-box d-flex align-items-center justify-content-between mt-4">
+                                <div class="d-flex align-items-center">
+                                    @if($sub->image)
+                                        <img src="{{ asset('storage/'.$sub->image) }}" class="rounded-circle me-3" width="60" height="60" alt="">
+                                    @endif
+                                    <div>
+                                        <h5>{{ $sub->title }}</h5>
+                                        <small>{{ $sub->description }}</small>
                                     </div>
-                                        <h4 class="mb-0">FORMED ON 2014</h4>
                                 </div>
-                            @endforeach
-                        @endif
+                                <h4 class="mb-0">FORMED ON 2014</h4>
+                            </div>
+                        @endforeach
+                    @endif
 
-                        <div class="btn-block"><a href="#" class="primary-btn">Learn More <i class="ri-arrow-right-up-line"></i><i class="ri-arrow-right-line"></i></a></div>
-                    </div>
-                </div>
-
-                <div class="col-lg-6">
-                    <div class="row g-4 image-area">
-                        <div class="green-shape"></div>
-
-                        {{-- Left column (first 2 images stacked) --}}
-                        <div class="col-6">
-                            @if(isset($ministry->images[0]))
-                                @php $img1 = resolveStorageImage($ministry->images[0]->image); @endphp
-                                @if($img1)
-                                    <div class="img-card shadow-sm mb-3" style="height:258px;">
-                                        <img src="{{ asset('storage/'.$img1) }}" alt="" class="img-fluid">
-                                    </div>
-                                @endif
-                            @endif
-
-                            @if(isset($ministry->images[1]))
-                                @php $img2 = resolveStorageImage($ministry->images[1]->image); @endphp
-                                @if($img2)
-                                    <div class="img-card shadow-sm" style="height:258px;">
-                                        <img src="{{ asset('storage/'.$img2) }}" alt="" class="img-fluid">
-                                    </div>
-                                @endif
-                            @endif
-                        </div>
-
-                        {{-- Right column (third tall image) --}}
-                        <div class="col-6">
-                            @if(isset($ministry->images[2]))
-                                @php $img3 = resolveStorageImage($ministry->images[2]->image); @endphp
-                                @if($img3)
-                                    <div class="img-card shadow-sm" style="height:530px;">
-                                        <img src="{{ asset('storage/'.$img3) }}" alt="" class="img-fluid">
-                                    </div>
-                                @endif
-                            @endif
-                        </div>
-
-                    </div>
+                    <div class="btn-block"><a href="#" class="primary-btn">Learn More <i class="ri-arrow-right-up-line"></i><i class="ri-arrow-right-line"></i></a></div>
                 </div>
             </div>
+
+            <div class="col-lg-6">
+                <div class="row g-4 image-area">
+
+                    {{-- LEFT column: first 2 images stacked --}}
+                    <div class="col-6">
+                        @foreach([0,1] as $i)
+                            @if(isset($ministry->images[$i]))
+                                @php
+                                    $imgPath = $ministry->images[$i]->image; // direct path
+                                @endphp
+                                <div class="img-card shadow-sm mb-3" style="height:258px;">
+                                    <img src="{{ asset('storage/'.$imgPath) }}" class="img-fluid" alt="">
+                                </div>
+                            @endif
+                        @endforeach
+                    </div>
+
+                    {{-- RIGHT column: 3rd tall image --}}
+                    <div class="col-6">
+                        @if(isset($ministry->images[2]))
+                            @php
+                                $imgPath = $ministry->images[2]->image; // direct path
+                            @endphp
+                            <div class="img-card shadow-sm" style="height:530px;">
+                                <img src="{{ asset('storage/'.$imgPath) }}" class="img-fluid" alt="">
+                            </div>
+                        @endif
+                    </div>
+
+                </div>
+            </div>
+
         </div>
-    </section>
+    </div>
+</section>
 @endif
 
 {{-- AIIA Section --}}
