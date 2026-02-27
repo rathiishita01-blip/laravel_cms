@@ -1,0 +1,211 @@
+@extends('layout.frontend')
+
+@section('content')
+
+@php
+    $grouped = $page->sections->groupBy('section_key');
+
+    $trainingSurvey = $grouped->get('training_survey', collect())->first();
+    $surveyData     = $grouped->get('survey_data', collect())->first();
+
+    if (!function_exists('resolveStorageImage')) {
+        function resolveStorageImage($filename) {
+            if (!$filename) return null;
+            $disk = \Illuminate\Support\Facades\Storage::disk('public');
+            if ($disk->exists($filename)) return $filename;
+            if ($disk->exists('images/'.$filename)) return 'images/'.$filename;
+            return null;
+        }
+    }
+@endphp
+
+{{-- ================= PAGE HEADER (Like Second Layout) ================= --}}
+<section class="page-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <h1>{{ $page->title ?? 'Training & Survey' }}</h1>
+                <ul class="breadcrumbs">
+                    <li><a href="{{ url('/') }}">Home</a></li>
+                    <li><img src="{{ asset('assets/images/double-arrow.svg') }}" alt=""></li>
+                    <li>{{ $page->title ?? 'Training & Survey' }}</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+{{-- ================= TRAINING / WORKSHOP SECTION ================= --}}
+@if($trainingSurvey)
+<section class="ntpcsection">
+    <div class="container">
+        <div class="row align-items-end">
+
+            {{-- LEFT CONTENT --}}
+            <div class="col-lg-5">
+                <div class="section-heading">
+                    <span>{{ $trainingSurvey->subtitle ?? 'Training & Workshops' }}</span>
+                    <h2>{{ $trainingSurvey->title ?? 'Workshops & Survey' }}</h2>
+                </div>
+                <p>{!! nl2br(e($trainingSurvey->description)) !!}</p>
+            </div>
+
+            {{-- RIGHT SIDE TABS + GALLERY --}}
+            <div class="col-lg-7">
+
+                {{-- Tabs --}}
+                <ul class="nav nav-tabs mb-3" id="workshopTabs" role="tablist">
+                    @foreach($trainingSurvey->subsections as $index => $sub)
+                    <li class="nav-item">
+                        <button class="nav-link @if($index==0) active @endif"
+                                data-bs-toggle="tab"
+                                data-bs-target="#content-{{ $sub->id }}"
+                                type="button">
+                            {{ $sub->title }}
+                        </button>
+                    </li>
+                    @endforeach
+                </ul>
+
+                {{-- Tab Content --}}
+                <div class="tab-content">
+
+                    @foreach($trainingSurvey->subsections as $index => $sub)
+                    <div class="tab-pane fade @if($index==0) show active @endif"
+                         id="content-{{ $sub->id }}">
+
+                        {{-- Image Slider --}}
+                        @if($sub->images && $sub->images->count())
+                        <div class="swiper mySwiper mb-4">
+                            <div class="swiper-wrapper">
+                                @foreach($sub->images as $img)
+                                    @php $imagePath = resolveStorageImage($img->image); @endphp
+                                    @if($imagePath)
+                                    <div class="swiper-slide">
+                                        <a href="{{ asset('storage/'.$imagePath) }}"
+                                           class="glightbox"
+                                           data-gallery="gallery-{{ $sub->id }}">
+                                            <img src="{{ asset('storage/'.$imagePath) }}"
+                                                 class="img-fluid"
+                                                 alt="">
+                                        </a>
+                                    </div>
+                                    @endif
+                                @endforeach
+                            </div>
+                            <div class="swiper-pagination"></div>
+                        </div>
+                        @endif
+
+                        {{-- Videos Grid --}}
+                        @if(!empty($sub->videos))
+                        <div class="row g-4">
+                            @foreach($sub->videos as $videoUrl)
+                                @php
+                                    $videoId = null;
+                                    if (preg_match('/(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/))([\w-]+)/', $videoUrl, $matches)) {
+                                        $videoId = $matches[1];
+                                    }
+                                @endphp
+
+                                @if($videoId)
+                                <div class="col-md-6">
+                                    <div class="video-card shadow rounded">
+                                        <iframe src="https://www.youtube.com/embed/{{ $videoId }}"
+                                                allowfullscreen></iframe>
+                                    </div>
+                                </div>
+                                @endif
+                            @endforeach
+                        </div>
+                        @endif
+
+                    </div>
+                    @endforeach
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+</section>
+@endif
+
+
+
+{{-- ================= SURVEY DATA SECTION (Styled Like Scheme Section) ================= --}}
+@if($surveyData)
+<section class="schemesection">
+    <div class="container">
+
+        <div class="row">
+            <div class="col-lg-8">
+                <div class="section-heading">
+                    <span>Survey Information</span>
+                    <h3>{{ $surveyData->title ?? 'Survey Data' }}</h3>
+                </div>
+            </div>
+        </div>
+
+        <div class="row pt-4 align-items-center">
+
+            {{-- Description --}}
+            <div class="col-lg-6">
+                {!! $surveyData->description !!}
+                
+                @if(!empty($surveyData->videos[0]))
+                <div class="btn-block mt-3">
+                    <a href="{{ $surveyData->videos[0] }}"
+                       target="_blank"
+                       class="primary-btn">
+                        Fill Survey Form
+                        <i class="ri-arrow-right-up-line"></i>
+                    </a>
+                </div>
+                @endif
+            </div>
+
+            {{-- QR Code --}}
+            <div class="col-lg-6 text-center">
+                @if($surveyData->image)
+                    @php $qrPath = resolveStorageImage($surveyData->image); @endphp
+                    @if($qrPath)
+                    <img src="{{ asset('storage/'.$qrPath) }}"
+                         class="img-fluid shadow rounded"
+                         style="max-width:300px;"
+                         alt="Survey QR Code">
+                    @endif
+                @endif
+            </div>
+
+        </div>
+    </div>
+</section>
+@endif
+
+@endsection
+
+
+@push('scripts')
+<script>
+var swiper = new Swiper(".mySwiper", {
+    slidesPerView: 2,
+    spaceBetween: 20,
+    loop: true,
+    pagination: {
+        el: ".swiper-pagination",
+        clickable: true,
+    },
+    breakpoints: {
+        0: { slidesPerView: 1 },
+        576: { slidesPerView: 2 },
+        992: { slidesPerView: 2 }
+    }
+});
+
+const lightbox = GLightbox({
+    selector: ".glightbox"
+});
+</script>
+@endpush

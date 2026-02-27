@@ -26,37 +26,81 @@
 @endphp
 
 {{-- Banner / Carousel --}}
-@if($banners->count())
-    @php $carouselId = 'carouselExampleIndicators'; @endphp
-    <section class="bannersection">
-        <div id="{{ $carouselId }}" class="carousel slide" data-bs-ride="carousel" data-bs-interval="3000">
-            <div class="carousel-indicators">
-                @foreach($banners as $i => $b)
-                    <button type="button" data-bs-target="#{{ $carouselId }}" data-bs-slide-to="{{ $i }}" class="{{ $i==0 ? 'active' : '' }}" aria-current="{{ $i==0 ? 'true' : 'false' }}"></button>
-                @endforeach
-            </div>
+<section class="bannersection">
+    <div id="homeCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="3000">
 
-            <div class="carousel-inner">
-                @foreach($banners as $i => $b)
-                    @php $img = resolveStorageImage($b->image); @endphp
-                    <div class="carousel-item {{ $i==0 ? 'active' : '' }}">
-                        @if($img)
-                            <img src="{{ asset('storage/'.$img) }}" class="d-block w-100" alt="{{ $b->title ?? '' }}">
-                        @endif
-                    </div>
-                @endforeach
-            </div>
+        {{-- 🔵 INDICATORS (DOTS) GO HERE --}}
+        <div class="carousel-indicators">
+            @php $slideIndex = 0; @endphp
 
-            <button class="carousel-control-prev" type="button" data-bs-target="#{{ $carouselId }}" data-bs-slide="prev">
-                <span class="carousel-control-prev-icon"></span>
-            </button>
+            @foreach($banners as $banner)
 
-            <button class="carousel-control-next" type="button" data-bs-target="#{{ $carouselId }}" data-bs-slide="next">
-                <span class="carousel-control-next-icon"></span>
-            </button>
+                {{-- Multiple Images --}}
+                @if($banner->images->count())
+                    @foreach($banner->images as $image)
+                        <button type="button"
+                                data-bs-target="#homeCarousel"
+                                data-bs-slide-to="{{ $slideIndex }}"
+                                class="{{ $slideIndex == 0 ? 'active' : '' }}"
+                                aria-current="{{ $slideIndex == 0 ? 'true' : 'false' }}">
+                        </button>
+                        @php $slideIndex++; @endphp
+                    @endforeach
+
+                {{-- Single Image --}}
+                @elseif($banner->image)
+                    <button type="button"
+                            data-bs-target="#homeCarousel"
+                            data-bs-slide-to="{{ $slideIndex }}"
+                            class="{{ $slideIndex == 0 ? 'active' : '' }}"
+                            aria-current="{{ $slideIndex == 0 ? 'true' : 'false' }}">
+                    </button>
+                    @php $slideIndex++; @endphp
+                @endif
+
+            @endforeach
         </div>
-    </section>
-@endif
+
+
+        {{-- SLIDES --}}
+        <div class="carousel-inner">
+
+            @php $isFirst = true; @endphp
+
+            @foreach($banners as $banner)
+
+                @if($banner->images->count())
+                    @foreach($banner->images as $image)
+                        <div class="carousel-item {{ $isFirst ? 'active' : '' }}">
+                            <img src="{{ asset('storage/'.$image->image) }}"
+                                 class="d-block w-100">
+                        </div>
+                        @php $isFirst = false; @endphp
+                    @endforeach
+
+                @elseif($banner->image)
+                    <div class="carousel-item {{ $isFirst ? 'active' : '' }}">
+                        <img src="{{ asset('storage/'.$banner->image) }}"
+                             class="d-block w-100">
+                    </div>
+                    @php $isFirst = false; @endphp
+                @endif
+
+            @endforeach
+
+        </div>
+
+        {{-- CONTROLS --}}
+        <button class="carousel-control-prev" type="button" data-bs-target="#homeCarousel" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon"></span>
+        </button>
+
+        <button class="carousel-control-next" type="button" data-bs-target="#homeCarousel" data-bs-slide="next">
+            <span class="carousel-control-next-icon"></span>
+        </button>
+
+    </div>
+</section>
 
 {{-- PM Yojna --}}
 @if($pm)

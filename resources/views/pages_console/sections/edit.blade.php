@@ -52,9 +52,9 @@
             <textarea name="description" id="description">{{ old('description', $section->description) }}</textarea>
         </div>
 
-        {{-- Image --}}
+        {{-- Single Image --}}
         <div class="w3-margin-bottom">
-            <label for="image">Image (optional):</label>
+            <label for="image">Main Image (optional):</label>
             @if($section->image)
                 <div><img src="{{ asset('storage/'.$section->image) }}" width="240"></div>
             @endif
@@ -65,6 +65,33 @@
         <div class="w3-margin-bottom">
             <label for="images">Additional Images (optional, multiple allowed):</label>
             <input type="file" name="images[]" id="images" multiple>
+
+            @if($section->images->count() > 0)
+                <div class="w3-margin-top">
+                    @foreach($section->images as $img)
+                        <div style="display:inline-block; position:relative; margin:5px;">
+                            <img src="{{ asset('storage/'.$img->image) }}" width="120">
+                            <a href="/console/pages/sections/image/delete/{{ $img->id }}" 
+                               style="position:absolute; top:0; right:0; background:red; color:white; padding:2px 6px;">X</a>
+                        </div>
+                    @endforeach
+                </div>
+            @endif
+        </div>
+
+        {{-- PDF --}}
+        <div class="w3-margin-bottom">
+            <label for="pdf">PDF (optional):</label>
+            @if($section->pdf)
+                <div><a href="{{ asset('storage/'.$section->pdf) }}" target="_blank">View PDF</a></div>
+            @endif
+            <input type="file" name="pdf" id="pdf">
+        </div>
+
+        {{-- Videos --}}
+        <div class="w3-margin-bottom">
+            <label for="videos">Videos (YouTube links, one per line)</label>
+            <textarea name="videos" id="videos" rows="4">@if($section->videos){{ implode("\n", $section->videos) }}@endif</textarea>
         </div>
 
         {{-- Sort Order --}}

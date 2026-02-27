@@ -9,6 +9,8 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PageController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ContactController;
+use App\Http\Controllers\PageSectionsController;
+use App\Http\Controllers\PatientController;
 
 
 /*
@@ -24,38 +26,34 @@ use App\Http\Controllers\ContactController;
 Route::get('/', [HomeController::class, 'index']);
 Route::get('/about', [HomeController::class, 'aboutUs']);
 Route::get('/contact', [HomeController::class, 'contactUs']);
+Route::get('/facesheet', function() {
+    $page = App\Models\Page::where('slug','facesheet')->first();
+    return view('pages.facesheet', compact('page'));
+});
+
+Route::get('/acsm_iec', function() {
+    $page = App\Models\Page::where('slug','acsm_iec')->first();
+    return view('pages.acsm_iec', compact('page'));
+});
+
+Route::get('/best_practices', function () {
+    $page = \App\Models\Page::where('slug','best_practices')->firstOrFail();
+    return view('pages.best_practices', compact('page'));
+});
+
+Route::get('/patient_corner', function () {
+    $page = \App\Models\Page::where('slug','patient_corner')->first();
+    return view('pages.patient_corner', compact('page'));
+});
 
 Route::get('/console/contacts/list', [ContactController::class, 'index']);
 Route::post('/contact-submit', [ContactController::class, 'store'])
      ->name('contact.store');
 
-Route::get('/project/{project:slug}', function (Project $project) {
-    return view('project', [
-        'project' => $project,
-    ]);
-})->where('project', '[A-z\-]+');
-
 Route::get('/console/logout', [ConsoleController::class, 'logout'])->middleware('auth');
 Route::get('/console/login', [ConsoleController::class, 'loginForm'])->middleware('guest');
 Route::post('/console/login', [ConsoleController::class, 'login'])->middleware('guest');
 Route::get('/console/dashboard', [ConsoleController::class, 'dashboard'])->middleware('auth');
-
-Route::get('/console/users/list', [UsersController::class, 'list'])->middleware('auth');
-Route::get('/console/users/add', [UsersController::class, 'addForm'])->middleware('auth');
-Route::post('/console/users/add', [UsersController::class, 'add'])->middleware('auth');
-Route::get('/console/users/edit/{user:id}', [UsersController::class, 'editForm'])->where('user', '[0-9]+')->middleware('auth');
-Route::post('/console/users/edit/{user:id}', [UsersController::class, 'edit'])->where('user', '[0-9]+')->middleware('auth');
-Route::get('/console/users/delete/{user:id}', [UsersController::class, 'delete'])->where('user', '[0-9]+')->middleware('auth');
-
-Route::get('/console/types/list', [TypesController::class, 'list'])->middleware('auth');
-Route::get('/console/types/add', [TypesController::class, 'addForm'])->middleware('auth');
-Route::post('/console/types/add', [TypesController::class, 'add'])->middleware('auth');
-Route::get('/console/types/edit/{type:id}', [TypesController::class, 'editForm'])->where('type', '[0-9]+')->middleware('auth');
-Route::post('/console/types/edit/{type:id}', [TypesController::class, 'edit'])->where('type', '[0-9]+')->middleware('auth');
-Route::get('/console/types/delete/{type:id}', [TypesController::class, 'delete'])->where('type', '[0-9]+')->middleware('auth');
-
-// Dynamic page route - must be last so it doesn't collide with other routes
-Route::get('/{slug}', [PageController::class, 'show'])->where('slug', '[A-z0-9\-]+');
 
 // Console: pages and page sections
 Route::get('/console/pages/list', [App\Http\Controllers\PagesController::class, 'list'])->middleware('auth');
@@ -72,3 +70,13 @@ Route::get('/console/pages/sections/{page:id}/edit/{section:id}', [App\Http\Cont
 Route::post('/console/pages/sections/{page:id}/edit/{section:id}', [App\Http\Controllers\PageSectionsController::class, 'edit'])->where('page', '[0-9]+')->where('section', '[0-9]+')->middleware('auth');
 Route::get('/console/pages/sections/{page:id}/delete/{section:id}', [App\Http\Controllers\PageSectionsController::class, 'delete'])->where('page', '[0-9]+')->where('section', '[0-9]+')->middleware('auth');
 
+Route::get('/console/pages/sections/image/delete/{image}', [PageSectionsController::class, 'deleteImage'])->middleware('auth');
+
+// Store patient data
+Route::post('/patients/store', [PatientController::class, 'store'])->name('patients.store');
+
+// Admin console list
+Route::get('/console/patients/list', [PatientController::class, 'index']);
+
+// Dynamic page route - must be last so it doesn't collide with other routes
+Route::get('/{slug}', [PageController::class, 'show'])->where('slug', '[A-z0-9\-]+');

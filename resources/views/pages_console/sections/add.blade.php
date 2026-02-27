@@ -63,12 +63,21 @@
         </div>
 
         {{-- Multiple Images --}}
-        <div class="w3-margin-bottom">
-            <label for="images">Additional Images (optional, multiple allowed):</label>
-            <input type="file" name="images[]" id="images" multiple>
-            <div class="w3-small">Use this to upload multiple images for banners or gallery sections.</div>
-        </div>
+    <div class="w3-margin-bottom">
+    <label for="images">Additional Images (multiple)</label>
+    <input type="file" name="images[]" id="images" multiple>
+</div>
 
+        <div class="w3-margin-bottom">
+    <label for="pdf">Upload PDF (optional)</label>
+    <input type="file" name="pdfs[]" multiple>
+</div>
+
+<div class="w3-margin-bottom">
+    <label for="videos">Videos (YouTube embed links, one per line)</label>
+    <input type="file" name="videos[]" multiple accept="video/*">
+    <textarea name="youtube_links[]" placeholder="YouTube link"></textarea>
+</div>
         {{-- Sort Order --}}
         <div class="w3-margin-bottom">
             <label for="sort_order">Sort Order:</label>

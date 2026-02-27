@@ -66,19 +66,19 @@
                                     <a class="nav-link" href="/about">About us</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="#">Fact sheet</a>
+                                    <a class="nav-link" href="/facesheet">Fact sheet</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="#">ACSM / IEC</a>
+                                    <a class="nav-link" href="/acsm_iec">ACSM / IEC</a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link" href="#">Performance report</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="#">Best Practices</a>
+                                    <a class="nav-link" href="/best_practices">Best Practices</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="#">Patient Corner</a>
+                                    <a class="nav-link" href="/patient_corner">Patient Corner</a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link" href="/contact">Contact us</a>
@@ -124,12 +124,12 @@
                     <div class="footer-widget">
                         <h4>Useful Links</h4>
                         <ul>
-                            <li><a href="#">About us</a></li>
-                            <li><a href="#">Fact sheet</a></li>
-                            <li><a href="#">ACSM / IEC</a></li>
+                            <li><a href="/about">About us</a></li>
+                            <li><a href="/factsheet">Fact sheet</a></li>
+                            <li><a href="/acsm_iec">ACSM / IEC</a></li>
                             <li><a href="#">Performance report</a></li>
-                            <li><a href="#">Best Practices</a></li>
-                            <li><a href="#">Patient Corner</a></li>
+                            <li><a href="/best_practices">Best Practices</a></li>
+                            <li><a href="/patient_corner">Patient Corner</a></li>
                         </ul>
                     </div>
                 </div>
