@@ -61,6 +61,17 @@
                     @endforeach
                 </td>
 
+                {{-- Audios --}}
+<td>
+    @foreach($section->media->where('type','audio') as $audio)
+        <audio controls style="width:150px; margin-bottom:5px;">
+            <source src="{{ asset('storage/'.$audio->file_path) }}">
+            Your browser does not support audio.
+        </audio>
+        <br>
+    @endforeach
+</td>
+
                 <td>{{ $section->sort_order }}</td>
 
                 <td>

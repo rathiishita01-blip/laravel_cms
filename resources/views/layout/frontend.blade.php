@@ -41,9 +41,11 @@
                 </div>
                 <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
                     <div class="search-block">
-                        <form action="#">
-                            <input type="text" placeholder="Search">
-                            <button type="submit"><img src="{{ asset('assets/images/search.svg') }}" alt="Search"></button>
+                        <form action="{{ route('patient.search') }}" method="GET">
+                            <input type="text" name="q" placeholder="Search" value="{{ request('q') }}">
+                            <button type="submit">
+                                <img src="{{ asset('assets/images/search.svg') }}" alt="Search">
+                            </button>
                         </form>
                     </div>
                 </div>
@@ -66,13 +68,13 @@
                                     <a class="nav-link" href="/about">About us</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="/facesheet">Fact sheet</a>
+                                    <a class="nav-link" href="/factsheet">Fact sheet</a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link" href="/acsm_iec">ACSM / IEC</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="#">Performance report</a>
+                                    <a class="nav-link" href="/performance_report">Performance report</a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link" href="/best_practices">Best Practices</a>
@@ -127,7 +129,7 @@
                             <li><a href="/about">About us</a></li>
                             <li><a href="/factsheet">Fact sheet</a></li>
                             <li><a href="/acsm_iec">ACSM / IEC</a></li>
-                            <li><a href="#">Performance report</a></li>
+                            <li><a href="/performance_report">Performance report</a></li>
                             <li><a href="/best_practices">Best Practices</a></li>
                             <li><a href="/patient_corner">Patient Corner</a></li>
                         </ul>

@@ -63,21 +63,28 @@
         </div>
 
         {{-- Multiple Images --}}
-    <div class="w3-margin-bottom">
-    <label for="images">Additional Images (multiple)</label>
-    <input type="file" name="images[]" id="images" multiple>
-</div>
+        <div class="w3-margin-bottom">
+            <label for="images">Additional Images (multiple)</label>
+            <input type="file" name="images[]" id="images" multiple>
+        </div>
 
         <div class="w3-margin-bottom">
-    <label for="pdf">Upload PDF (optional)</label>
-    <input type="file" name="pdfs[]" multiple>
-</div>
+            <label for="pdf">Upload PDF (optional)</label>
+            <input type="file" name="pdfs[]" multiple>
+        </div>
 
-<div class="w3-margin-bottom">
-    <label for="videos">Videos (YouTube embed links, one per line)</label>
-    <input type="file" name="videos[]" multiple accept="video/*">
-    <textarea name="youtube_links[]" placeholder="YouTube link"></textarea>
-</div>
+        <div class="w3-margin-bottom">
+            <label for="videos">Videos (YouTube embed links, one per line)</label>
+            <input type="file" name="videos[]" multiple accept="video/*">
+            <textarea name="youtube_links[]" placeholder="YouTube link"></textarea>
+        </div>
+
+        <div class="w3-margin-bottom">
+            <label>Upload Audio Files</label>
+            <input type="file" name="audios[]" multiple>
+        </div>
+
+
         {{-- Sort Order --}}
         <div class="w3-margin-bottom">
             <label for="sort_order">Sort Order:</label>

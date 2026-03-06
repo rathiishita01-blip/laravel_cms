@@ -11,6 +11,9 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\PageSectionsController;
 use App\Http\Controllers\PatientController;
+use App\Http\Controllers\CureController;
+use App\Http\Controllers\ResearchPatientController;
+use App\Http\Controllers\IdCardController;
 
 
 /*
@@ -26,9 +29,9 @@ use App\Http\Controllers\PatientController;
 Route::get('/', [HomeController::class, 'index']);
 Route::get('/about', [HomeController::class, 'aboutUs']);
 Route::get('/contact', [HomeController::class, 'contactUs']);
-Route::get('/facesheet', function() {
-    $page = App\Models\Page::where('slug','facesheet')->first();
-    return view('pages.facesheet', compact('page'));
+Route::get('/factsheet', function() {
+    $page = App\Models\Page::where('slug','factsheet')->first();
+    return view('pages.factsheet', compact('page'));
 });
 
 Route::get('/acsm_iec', function() {
@@ -45,6 +48,14 @@ Route::get('/patient_corner', function () {
     $page = \App\Models\Page::where('slug','patient_corner')->first();
     return view('pages.patient_corner', compact('page'));
 });
+
+Route::get('/performance_report', function () {
+    $page = \App\Models\Page::where('slug','performance_report')->first();
+    return view('pages.performance_report', compact('page'));
+});
+
+
+Route::get('/patient-search', [PatientController::class, 'search'])->name('patient.search');
 
 Route::get('/console/contacts/list', [ContactController::class, 'index']);
 Route::post('/contact-submit', [ContactController::class, 'store'])
@@ -78,5 +89,30 @@ Route::post('/patients/store', [PatientController::class, 'store'])->name('patie
 // Admin console list
 Route::get('/console/patients/list', [PatientController::class, 'index']);
 
+Route::post('/upload-opd', [PatientController::class, 'uploadOpd'])
+    ->name('upload.opd');
+
+Route::get('/download-opd', [PatientController::class, 'downloadOpd'])
+    ->name('download.opd');
+
+
+Route::post('/cure/store', [CureController::class, 'store'])
+    ->name('cure.store');
+
+Route::get('/cure/download', [CureController::class, 'download'])
+    ->name('cure.download');
+
+
+Route::post('/research/store', [ResearchPatientController::class, 'store'])
+    ->name('research.store');
+
+Route::get('/research/download', [ResearchPatientController::class, 'download'])
+    ->name('research.download');
+
+Route::post('/idcard/store', [IdCardController::class, 'store'])
+    ->name('idcard.store');
+
+Route::get('/idcard/download', [IdCardController::class, 'download'])
+    ->name('idcard.download');
 // Dynamic page route - must be last so it doesn't collide with other routes
 Route::get('/{slug}', [PageController::class, 'show'])->where('slug', '[A-z0-9\-]+');

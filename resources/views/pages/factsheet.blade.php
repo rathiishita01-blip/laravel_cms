@@ -7,6 +7,8 @@
 
     $trainingSurvey = $grouped->get('training_survey', collect())->first();
     $surveyData     = $grouped->get('survey_data', collect())->first();
+    $diagnosticFacilities = $grouped->get('diagnostic_facilities', collect())->first();
+    $mouSection           = $grouped->get('mou', collect())->first();
 
     if (!function_exists('resolveStorageImage')) {
         function resolveStorageImage($filename) {
@@ -132,7 +134,82 @@
 </section>
 @endif
 
+{{-- ================= DIAGNOSTIC FACILITIES SECTION ================= --}}
+@if($diagnosticFacilities)
+<section class="schemesection">
+    <div class="container">
 
+        <div class="row">
+            <div class="col-lg-8">
+                <div class="section-heading">
+                    <span>Diagnostic Facilities</span>
+                    <h3>{{ $diagnosticFacilities->title ?? 'Diagnostic Facilities' }}</h3>
+                </div>
+            </div>
+        </div>
+
+        <div class="row pt-4 align-items-center">
+
+            {{-- Description --}}
+            <div class="col-lg-6">
+                {!! $diagnosticFacilities->description !!}
+            </div>
+
+            {{-- Image --}}
+            <div class="col-lg-6 text-center">
+                @if($diagnosticFacilities->image)
+                    @php $diagPath = resolveStorageImage($diagnosticFacilities->image); @endphp
+                    @if($diagPath)
+                        <img src="{{ asset('storage/'.$diagPath) }}"
+                             class="img-fluid shadow rounded"
+                             alt="Diagnostic Facilities">
+                    @endif
+                @endif
+            </div>
+
+        </div>
+    </div>
+</section>
+@endif
+
+{{-- ================= MOU SECTION ================= --}}
+@if($mouSection)
+<section class="ntpcsection">
+    <div class="container">
+
+        <div class="row">
+            <div class="col-lg-8">
+                <div class="section-heading">
+                    <span>MOU</span>
+                    <h2>{{ $mouSection->title ?? 'Memorandum of Understanding' }}</h2>
+                </div>
+            </div>
+        </div>
+
+        <div class="row pt-4 align-items-center">
+
+            {{-- Description --}}
+            <div class="col-lg-6">
+                {!! $mouSection->description !!}
+            </div>
+
+            {{-- Image --}}
+            <div class="col-lg-6 text-center">
+                @if($mouSection->image)
+                    @php $mouPath = resolveStorageImage($mouSection->image); @endphp
+                    @if($mouPath)
+                        <img src="{{ asset('storage/'.$mouPath) }}"
+                             class="img-fluid shadow rounded"
+                             alt="MOU Image">
+                    @endif
+                @endif
+            </div>
+
+        </div>
+
+    </div>
+</section>
+@endif
 
 {{-- ================= SURVEY DATA SECTION (Styled Like Scheme Section) ================= --}}
 @if($surveyData)

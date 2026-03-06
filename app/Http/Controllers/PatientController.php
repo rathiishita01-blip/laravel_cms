@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Patient;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\PatientsExport;
+use App\Imports\PatientsImport;
 
 class PatientController extends Controller
 {
@@ -25,4 +28,38 @@ class PatientController extends Controller
         $patients = Patient::orderBy('id', 'asc')->paginate(10); // or ->get() if not paginating
         return view('patient_console.list', compact('patients'));
     }
+
+    public function search(Request $request)
+    {
+        $query = $request->q;
+
+        $patients = Patient::where(function($q) use ($query) {
+            $q->where('name', 'LIKE', "%$query%")
+            ->orWhere('uhid_no', 'LIKE', "%$query%")
+            ->orWhere('adhaar_no', 'LIKE', "%$query%")
+            ->orWhere('contact_details', 'LIKE', "%$query%");
+        })
+        ->paginate(20)
+        ->withQueryString();
+
+        return view('pages.patient_search', compact('patients'));
+    }
+    public function uploadOpd(Request $request)
+    {
+
+        Excel::import(new PatientsImport, $request->file('file'));
+
+        return back()->with('success','Excel Uploaded Successfully');
+    }
+    public function downloadOpd(Request $request)
+{
+    $request->validate([
+        'uhid_no' => 'required'
+    ]);
+
+    return Excel::download(
+        new PatientsExport($request->uhid_no),
+        $request->uhid_no . '_opd.xlsx'
+    );
+}
 }

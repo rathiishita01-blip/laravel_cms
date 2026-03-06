@@ -94,6 +94,11 @@
             <textarea name="videos" id="videos" rows="4">@if($section->videos){{ implode("\n", $section->videos) }}@endif</textarea>
         </div>
 
+        <div class="w3-margin-bottom">
+            <label>Upload Audio Files</label>
+            <input type="file" name="audios[]" multiple>
+        </div>
+
         {{-- Sort Order --}}
         <div class="w3-margin-bottom">
             <label for="sort_order">Sort Order:</label>
