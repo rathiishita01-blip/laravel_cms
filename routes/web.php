@@ -30,12 +30,12 @@ Route::get('/', [HomeController::class, 'index']);
 Route::get('/about', [HomeController::class, 'aboutUs']);
 Route::get('/contact', [HomeController::class, 'contactUs']);
 Route::get('/factsheet', function() {
-    $page = App\Models\Page::where('slug','factsheet')->first();
+    $page = \App\Models\Page::where('slug','factsheet')->first();
     return view('pages.factsheet', compact('page'));
 });
 
 Route::get('/acsm_iec', function() {
-    $page = App\Models\Page::where('slug','acsm_iec')->first();
+    $page = \App\Models\Page::where('slug','acsm_iec')->first();
     return view('pages.acsm_iec', compact('page'));
 });
 
