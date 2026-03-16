@@ -68,7 +68,7 @@
                                     <a class="nav-link" href="/about">About us</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="/factsheet">Fact sheet</a>
+                                    <a class="nav-link" href="/facesheet">Face sheet</a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link" href="/acsm_iec">ACSM / IEC</a>
@@ -127,7 +127,7 @@
                         <h4>Useful Links</h4>
                         <ul>
                             <li><a href="/about">About us</a></li>
-                            <li><a href="/factsheet">Fact sheet</a></li>
+                            <li><a href="/facesheet">Face sheet</a></li>
                             <li><a href="/acsm_iec">ACSM / IEC</a></li>
                             <li><a href="/performance_report">Performance report</a></li>
                             <li><a href="/best_practices">Best Practices</a></li>
