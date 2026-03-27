@@ -151,12 +151,16 @@
             @foreach($documentaries->media->where('type','pdf') as $pdf)
             <div class="col-md-4">
                 <div class="card shadow-sm p-4 text-center h-100">
-                    <h6 class="mb-3">Download PDF</h6>
                     <a href="{{ asset('storage/'.$pdf->file_path) }}"
-                       target="_blank"
-                       class="btn btn-primary btn-sm">
-                        View / Download
-                    </a>
+               download="{{ pathinfo($pdf->file_path, PATHINFO_BASENAME) }}"
+               class="btn btn-primary btn-sm">
+               Download PDF
+            </a>
+            <a href="{{ asset('storage/'.$pdf->file_path) }}"
+               target="_blank"
+               class="btn btn-secondary btn-sm mt-2">
+               View Online
+            </a>
                 </div>
             </div>
             @endforeach
@@ -251,10 +255,17 @@
             <div class="row g-4">
                 @foreach($enroll->media->where('type','pdf') as $pdf)
                 <div class="col-md-4"> <div class="card shadow-sm p-4 text-center h-100"> 
-                    <h6 class="mb-3">Download Enrollment Guide </h6> 
-                    <a href="{{ asset('storage/'.$pdf->file_path) }}" target="_blank" class="btn btn-primary btn-sm"> 
-                        Download
-                    </a> 
+                    <h6 class="mb-3">Enrollment Guide </h6> 
+                    <a href="{{ asset('storage/'.$pdf->file_path) }}"
+               download="{{ pathinfo($pdf->file_path, PATHINFO_BASENAME) }}"
+               class="btn btn-primary btn-sm">
+               Download PDF
+            </a>
+            <a href="{{ asset('storage/'.$pdf->file_path) }}"
+               target="_blank"
+               class="btn btn-secondary btn-sm mt-2">
+               View Online
+            </a>
                 </div> 
                 @endforeach
             </div>
@@ -298,10 +309,17 @@
         <div class="row g-4"> 
             @foreach($section->media->where('type','pdf') as $pdf) 
             <div class="col-md-4"> <div class="card shadow-sm p-4 text-center h-100"> 
-                <h6 class="mb-3">Download PDF</h6> 
-                <a href="{{ asset('storage/'.$pdf->file_path) }}" target="_blank" class="btn btn-primary btn-sm"> 
-                    View / Download 
-                </a> 
+                <h6 class="mb-3">PDF</h6> 
+                <a href="{{ asset('storage/'.$pdf->file_path) }}"
+               download="{{ pathinfo($pdf->file_path, PATHINFO_BASENAME) }}"
+               class="btn btn-primary btn-sm">
+               Download PDF
+            </a>
+            <a href="{{ asset('storage/'.$pdf->file_path) }}"
+               target="_blank"
+               class="btn btn-secondary btn-sm mt-2">
+               View Online
+            </a>
             </div> 
         </div> 
         @endforeach 
@@ -340,10 +358,15 @@
             <div class="col-md-4">
                 <div class="card shadow-sm p-4 text-center h-100">
                     <a href="{{ asset('storage/'.$pdf->file_path) }}"
-                       target="_blank"
-                       class="btn btn-primary btn-sm">
-                        View / Download PDF
-                    </a>
+               download="{{ pathinfo($pdf->file_path, PATHINFO_BASENAME) }}"
+               class="btn btn-primary btn-sm">
+               Download PDF
+            </a>
+            <a href="{{ asset('storage/'.$pdf->file_path) }}"
+               target="_blank"
+               class="btn btn-secondary btn-sm mt-2">
+               View Online
+            </a>
                 </div>
             </div>
             @endforeach

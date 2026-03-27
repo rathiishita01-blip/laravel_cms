@@ -1360,3 +1360,630 @@ footer {
     object-fit: cover;  /* Crop nicely */
     border-radius: 10px;
 }
+
+
+/**** Responsive Work 27-03-2026  ****/
+
+@media (max-width:767px) {
+
+    header {
+        margin-bottom: -15px;
+    }
+
+    header .social-media {
+        padding-top: 8px;
+    }
+
+    header .col-lg-4:nth-child(1) {
+        width: 50%;
+    }
+
+    header .col-lg-4:nth-child(2) {
+        order: 3;
+    }
+
+    header .col-lg-4:nth-child(3) {
+        width: 50%;
+    }
+
+    header form {
+        padding-top: 8px;
+    }
+
+    header .logo-block {
+        margin-top: 8px;
+    }
+
+    header .navbar-toggler {
+        color: #fff;
+        border: 0;
+    }
+
+    header .navbar-toggler::before {
+        content: 'Menu';
+        font-size: 16px;
+    }
+
+    header .navbar {
+        justify-content: right;
+        padding: 5px 10px;
+    }
+
+    header .navbar-toggler:focus {
+        box-shadow: none;
+    }
+
+    .navbar-toggler-icon {
+        filter: invert(1);
+        opacity: 1;
+    }
+
+
+    header form input[type="text"] {
+        width: 175px;
+        min-width: 175px;
+        font-size: 14px;
+    }
+
+
+    .banner-img {
+        aspect-ratio: 1 / 1;
+        height: auto;
+    }
+
+    .info-card {
+        padding: 25px 30px;
+    }
+
+    .info-card h2 {
+        font-size: 24px;
+        line-height: 32px;
+    }
+
+    .yojnasection .section-heading span {
+        font-size: 16px
+    }
+
+    .yojnasection .section-heading h2 {
+        margin-bottom: 20px;
+    }
+
+    .yojnasection .action-btn a {
+        font-size: 42px;
+    }
+
+    .yojnasection .action-btn {
+        right: 30px;
+        top: 10px;
+    }
+
+    .yojnasection .row .row .col-md-4 {
+        width: 35%;
+    }
+
+    .yojnasection .row .row .col-md-8 {
+        width: 65%;
+    }
+
+    .yojnasection .info-card p {
+        font-size: 14px;
+        line-height: 22px
+    }
+
+    .yojnasection .col-lg-6:nth-child(1) {
+        order: 2 !important;
+    }
+
+    .quote-card {
+        padding: 20px 30px;
+        border-radius: 12px;
+    }
+
+    .quote-card p {
+        font-size: 12px;
+        line-height: 20px;
+        margin-bottom: 8px !important;
+    }
+
+    .quote-card h5 {
+        font-size: 14px;
+        line-height: 24px;
+    }
+
+    .quote-block {
+        position: absolute;
+        bottom: 20px;
+        right: 20px;
+        font-size: 32px;
+    }
+
+    .pm-image {
+        border-radius: 12px;
+        aspect-ratio: 1 / 1;
+    }
+
+    .moasection {
+        padding: 40px 0px;
+    }
+
+    .moasection .section-heading span {
+        font-size: 16px;
+        line-height: 24px;
+    }
+
+    .moasection .section-heading h2 {
+        font-size: 24px;
+        line-height: 32px;
+        margin-bottom: 20px;
+    }
+
+    .moasection .about-text {
+        font-size: 14px;
+        line-height: 22px;
+    }
+
+    .moacontentblock {
+        width: 100%;
+    }
+
+    .highlight-box {
+        padding: 20px 30px;
+        flex-direction: column;
+        align-items: flex-start !important;
+    }
+
+    .highlight-box h4 {
+        font-size: 30px;
+        line-height: 30px;
+    }
+
+    .highlight-box .d-flex {
+        margin-bottom: 16px;
+    }
+
+    .moasection .image-area .col-6 {
+        width: 100%;
+    }
+
+    .moasection .image-area .col-6:nth-child(2) {
+        display: flex;
+        gap: 15px;
+    }
+
+    .moasection .image-area .col-6:nth-child(2) .img-card {
+        width: 50%;
+    }
+
+    .moasection .image-area .img-card {
+        height: max-content !important;
+    }
+
+    .moasection .image-area .col-6 .img-card img {
+        aspect-ratio: 1 / 1;
+        height: auto;
+    }
+
+
+
+    .rolsresponsibilitysection {
+        padding: 40px 0px;
+    }
+
+    .rolsresponsibilitysection .col-lg-4 {
+        width: 50%;
+    }
+
+    .rolsresponsibilitysection .profile-card {
+        flex-direction: column;
+    }
+
+    .rolsresponsibilitysection .profile-card .image {
+        width: 100%;
+        height: auto;
+    }
+
+    .profile-card .content {
+        width: 100%;
+    }
+
+    .profile-card .content h4 {
+        font-size: 18px;
+        color: var(--blue-primary);
+        margin-bottom: 10px;
+    }
+
+    .profile-card .content h6 {
+        font-size: 14px;
+        margin-bottom: 8px;
+    }
+
+    .rolsresponsibilitysection h2 {
+        font-size: 24px;
+        line-height: 32px;
+    }
+
+    .aiiasection {
+        padding: 40px 0px;
+    }
+
+    .aiiasection .image-block {
+        margin-bottom: 20px;
+    }
+
+    .aiiasection .section-heading span {
+        font-size: 16px;
+        line-height: 24px;
+    }
+
+    .aiiasection .section-heading h2 {
+        font-size: 24px;
+        line-height: 32px;
+        margin-bottom: 20px;
+    }
+
+    .aiiasection .image-block img {
+        width: 100%;
+        height: auto;
+    }
+
+    .rntcpsection {
+        padding: 40px 0px;
+    }
+
+    .rntcpsection .section-heading span {
+        font-size: 16px;
+        line-height: 24px;
+    }
+
+    .rntcpsection .section-heading h2 {
+        font-size: 24px;
+        line-height: 32px;
+    }
+
+    .objective-block {
+        padding: 25px 30px;
+        margin-top: 32px;
+    }
+
+    .rntcpsection p {
+        font-size: 14px;
+        line-height: 22px;
+    }
+
+    .rntcpsection h4 {
+        font-size: 20px;
+        line-height: 26px;
+    }
+
+    .objective-block .action-btn {
+        right: 20px;
+        top: 10px;
+
+    }
+
+    .objective-block .action-btn a {
+        font-size: 42px;
+    }
+
+    .page-header {
+        border-radius: 0;
+        padding: 60px 0px;
+    }
+
+    .page-header h1 {
+        font-size: 36px;
+        line-height: 44px;
+    }
+
+    .page-header .breadcrumbs {
+        margin-top: 8px;
+    }
+
+    .section-heading span {
+        font-size: 16px !important;
+        line-height: 24px !important;
+    }
+
+    .contactsection .contact-details .section-heading h4 {
+        font-size: 18px;
+        line-height: 24px;
+    }
+
+    .contactsection .contact-details {
+        width: 100%;
+    }
+
+    .contactsection .map-block iframe {
+        width: 100%;
+    }
+
+    .form-block {
+        margin-left: 0;
+        margin-top: 30px;
+    }
+
+    .contactsection .section-heading h2 {
+        font-size: 24px;
+        line-height: 32px;
+        margin-bottom: 20px;
+    }
+
+    .form-control {
+        padding: 14px 22px;
+        font-size: 16px;
+    }
+
+    .ntpcsection {
+        padding: 40px 0px;
+    }
+
+    .ntpcsection .section-heading h2 {
+        margin-bottom: 20px;
+        font-size: 24px;
+        line-height: 32px;
+    }
+
+    .schemesection .customcard {
+        padding: 30px 30px;
+    }
+
+    .schemesection .customcard h4{
+        margin-bottom: 20px;
+        font-size: 20px;
+        line-height: 28px;
+    }
+
+    .schemesection .section-heading h3{
+        margin-bottom: 20px;
+        font-size: 24px;
+        line-height: 32px;
+    }
+
+    .schemesection{
+        padding: 40px 0px;
+    }
+
+    .projectdetailsection{
+        padding: 40px 0px;
+    }
+
+    .projectdetailsection .section-heading h3{
+        font-size: 24px;
+        line-height: 32px;
+    }
+
+    .projectdetailsection .content-block{
+        margin-top: 40px;
+    }
+
+    footer {
+        padding: 45px 0px 0px 0px;
+    }
+
+    footer .footer-logo {
+        width: 240px;
+        margin: 0 auto;
+        margin-bottom: 24px;
+    }
+
+    footer .pb-5 {
+        padding-bottom: 1.5rem !important;
+    }
+
+    footer .col-lg-3:nth-child(2) {
+        width: 50%;
+    }
+
+    footer .col-lg-3:nth-child(3) {
+        width: 50%;
+    }
+
+    .footer-widget ul li {
+        margin-bottom: 12px;
+    }
+
+    .footer-widget ul li a {
+        font-size: 14px;
+    }
+
+    .footer-widget .context {
+        font-size: 14px;
+    }
+
+    .footer-widget {
+        margin-bottom: 24px;
+    }
+
+    footer .col-lg-3:nth-child(4) .footer-widget {
+        margin-bottom: 0;
+    }
+
+    .footer-widget h4 {
+        font-size: 20px;
+    }
+
+    footer .sponsors-logos {
+        justify-content: center;
+    }
+
+    footer .sponsors-logos img {
+        width: 85px;
+    }
+
+    footer .social-media ul {
+        justify-content: center;
+    }
+
+    footer .copyright p {
+        font-size: 14px;
+        text-align: center;
+        margin-bottom: 8px !important;
+    }
+
+    footer .legal-links {
+        justify-content: center;
+    }
+
+    footer .legal-links a {
+        font-size: 14px !important;
+    }
+}
+
+
+@media (min-width:768px) and (max-width:1024px) {
+
+    header form input[type="text"] {
+        min-width: 90%;
+        width: 90%;
+        font-size: 14px;
+    }
+
+    .moacontentblock {
+        width: 100%;
+    }
+
+    .aiiasection p {
+        font-size: 14px;
+        line-height: 24px;
+    }
+
+    .aiiasection .row {
+        flex-direction: column;
+    }
+
+    .aiiasection img {
+        margin-bottom: 24px;
+    }
+
+    .aiiasection .row .col-md-6 {
+        flex: 0 0 auto;
+        width: 100%;
+    }
+
+    .rntcpsection p {
+        font-size: 14px;
+        line-height: 22px;
+    }
+
+    .rntcpsection .objective-block {
+        padding: 35px 40px;
+    }
+
+    .rntcpsection .objective-block h4 {
+        font-size: 20px;
+    }
+
+    .objective-block .action-btn a {
+        font-size: 36px;
+    }
+
+    .yojnasection .info-card p {
+        font-size: 14px;
+        line-height: 22px;
+    }
+
+    .yojnasection .col-lg-6 {
+        flex: 0 0 auto;
+        width: 100%;
+    }
+
+    .yojnasection .col-lg-6:nth-child(1) {
+        order: 2 !important;
+    }
+
+    .page-header {
+        padding: 60px 0px;
+        background-image: url(../images/page-header-image.webp);
+        background-size: cover;
+        border-radius: 0;
+    }
+
+
+    .projectdetailsection .col-lg-8{
+        width: 100%;
+    }
+
+    .projectdetailsection .col-lg-4{
+        width: 100%;
+    }
+
+    .projectdetailsection .content-block{
+        margin-top: 20px;
+    }
+
+    footer .pb-5 {
+        padding-bottom: 0 !important;
+    }
+
+    .rolsresponsibilitysection .col-lg-4 {
+        width: 50%;
+    }
+
+    .profile-card .content h6 {
+        font-size: 14px;
+        color: var(--black-primary);
+        margin-bottom: 8px;
+    }
+
+    .profile-card .content {
+        min-height: max-content;
+    }
+
+    header .navbar-toggler {
+        color: #fff;
+        border: 0;
+    }
+
+    header .navbar-toggler::before {
+        content: 'Menu';
+        font-size: 16px;
+    }
+
+    header .navbar {
+        justify-content: right;
+        padding: 5px 10px;
+    }
+
+    header .navbar-toggler:focus {
+        box-shadow: none;
+    }
+
+    .navbar-toggler-icon {
+        filter: invert(1);
+        opacity: 1;
+    }
+
+    .footer-logo {
+        width: 240px;
+    }
+
+    .sponsors-logos img {
+        width: 90px;
+    }
+
+    footer .col-lg-3 {
+        width: 50%;
+    }
+
+    footer .footer-widget {
+        margin-bottom: 30px;
+    }
+
+    footer .footer-widget h4 {
+        font-size: 22px;
+        line-height: 28px;
+    }
+
+    footer .copyright p {
+        font-size: 12px;
+    }
+
+    footer .legal-links a {
+        font-size: 12px;
+    }
+}
+
+/**** Responsive Work 27-03-2026  ****/
+
+
+/* responsive css */

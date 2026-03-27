@@ -89,6 +89,10 @@ Route::post('/patients/store', [PatientController::class, 'store'])->name('patie
 // Admin console list
 Route::get('/console/patients/list', [PatientController::class, 'index']);
 
+// Download single patient by ID
+Route::get('/console/patients/{id}/download', [PatientController::class, 'download'])
+    ->name('patients.download');
+
 Route::post('/upload-opd', [PatientController::class, 'uploadOpd'])
     ->name('upload.opd');
 

@@ -84,11 +84,16 @@
                             </p>
                         @endif
 
-                        <a href="{{ asset('storage/'.$path) }}"
-                           target="_blank"
-                           class="btn btn-primary btn-sm mt-3">
-                            View / Download
-                        </a>
+                        <a href="{{ asset('storage/'.$pdf->file_path) }}"
+               download="{{ pathinfo($pdf->file_path, PATHINFO_BASENAME) }}"
+               class="btn btn-primary btn-sm">
+               Download PDF
+            </a>
+            <a href="{{ asset('storage/'.$pdf->file_path) }}"
+               target="_blank"
+               class="btn btn-secondary btn-sm mt-2">
+               View Online
+            </a>
 
                     </div>
                 </div>

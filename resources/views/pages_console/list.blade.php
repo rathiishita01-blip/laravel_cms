@@ -4,11 +4,12 @@
 
 <section class="w3-padding">
 
-    <h2>Pages</h2>
+    <div class="w3-flex w3-justify-between w3-align-center">
+        <h2>Pages</h2>
+        <a href="/console/pages/add" class="w3-button w3-green">Add Page</a>
+    </div>
 
-    <a href="/console/pages/add" class="w3-button w3-green">Add Page</a>
-
-    <table class="w3-table w3-striped w3-margin-top">
+    <table class="w3-table w3-striped w3-bordered w3-margin-top datatable">
         <thead>
             <tr>
                 <th>Title</th>
@@ -22,9 +23,9 @@
                     <td>{{ $page->title }}</td>
                     <td>{{ $page->slug }}</td>
                     <td>
-                        <a href="/console/pages/edit/{{ $page->id }}">Edit</a> |
-                        <a href="/console/pages/delete/{{ $page->id }}" onclick="return confirm('Are you sure?')">Delete</a> |
-                        <a href="/console/pages/sections/{{ $page->id }}/list">Sections</a>
+                        <a class="w3-button w3-small w3-blue" href="/console/pages/edit/{{ $page->id }}">Edit</a>
+                        <a class="w3-button w3-small w3-red" href="/console/pages/delete/{{ $page->id }}" onclick="return confirm('Are you sure?')">Delete</a>
+                        <a class="w3-button w3-small w3-grey" href="/console/pages/sections/{{ $page->id }}/list">Sections</a>
                     </td>
                 </tr>
             @endforeach
@@ -34,3 +35,16 @@
 </section>
 
 @endsection
+
+@push('scripts')
+<script>
+    $(document).ready(function() {
+        $('.datatable').each(function () {
+            new DataTable(this, {
+                pageLength: 10,
+                responsive: true
+            });
+        });
+    });
+</script>
+@endpush

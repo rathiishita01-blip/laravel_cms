@@ -15,6 +15,11 @@ class PatientController extends Controller
     {
         $request->validate([
             'name' => 'required|string|max:255',
+            'adhaar_no' => ['required', 'digits:16'], // ✅ exactly 16 digits
+            'uhid_no' => 'required|string|max:255',
+            // Add any other validations you want
+        ], [
+            'adhaar_no.digits' => 'Aadhaar number must be exactly 16 digits.', // custom error message
         ]);
 
         Patient::create($request->all());
@@ -44,6 +49,13 @@ class PatientController extends Controller
 
         return view('pages.patient_search', compact('patients'));
     }
+
+    public function download($id)
+{
+    $patient = Patient::findOrFail($id);
+
+    return Excel::download(new PatientsExport($patient->uhid_no), $patient->uhid_no . '_opd.xlsx');
+}
     public function uploadOpd(Request $request)
     {
 

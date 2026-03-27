@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->date('date')->nullable();
             $table->string('uhid_no')->nullable();
-            $table->string('adhaar_no')->nullable();
+            $table->string('adhaar_no',16)->nullable();
             $table->string('name');
             $table->integer('age')->nullable();
             $table->string('sex')->nullable();

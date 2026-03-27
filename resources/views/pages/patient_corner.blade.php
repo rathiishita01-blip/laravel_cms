@@ -147,7 +147,9 @@
 
                         <div class="col-md-4 mb-3">
                             <label>Adhaar No.</label>
-                            <input type="text" name="adhaar_no" class="form-control" value="{{ old('adhaar_no') }}">
+                            <input type="text" name="adhaar_no" class="form-control"
+       value="{{ old('adhaar_no') }}" maxlength="16" pattern="\d{16}"
+       title="Aadhaar number must be exactly 16 digits" required>
                         </div>
 
                         <div class="col-md-4 mb-3">

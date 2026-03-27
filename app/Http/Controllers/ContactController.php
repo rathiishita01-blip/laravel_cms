@@ -10,7 +10,7 @@ class ContactController extends Controller
     {
         $request->validate([
             'fname'   => 'required|string|max:255',
-            'email'   => 'required|email|max:255',
+            'email' => ['required', 'email', 'regex:/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/'],
             'message' => 'required|string',
         ]);
 
