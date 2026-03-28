@@ -116,6 +116,10 @@
     width: 100%;
 }
 
+.dataTables_filter{
+    margin-bottom:20px!important;
+}
+
 @media (max-width:767px){
     .adminbar .admin-nav{
         flex-direction: column;

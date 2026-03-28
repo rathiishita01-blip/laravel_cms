@@ -1,6 +1,7 @@
 @extends('layout.console')
 
 @section('content')
+<!-- DataTables CSS -->
 <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
 
 <!-- jQuery (required for DataTables) -->
@@ -20,7 +21,7 @@
         <div class="card-body">
 
             <div class="table-responsive">
-                <table id="contactsTable" class="table table-hover align-middle">
+                <table id="contactsTable" class="table table-striped table-hover align-middle">
                     <thead class="table-dark">
                         <tr>
                             <th>Name</th>
@@ -51,23 +52,17 @@
 
 </div>
 
-<!-- jQuery + DataTables -->
-<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
-<script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
 
 <script>
 $(document).ready(function() {
     $('#contactsTable').DataTable({
-        paging: true,
-        searching: true,
-        ordering: true,
-        order: [[0, "asc"]],
-        pageLength: 10,
-        language: {
-            search: "_INPUT_",
-            searchPlaceholder: "Search contacts..."
-        }
+        "paging": true,
+        "searching": true,
+        "ordering": true,
+        "order": [[0, "asc"]], // default sort by first column (S.No)
+        "columnDefs": [
+            { "orderable": false, "targets": -1 } // disable sorting on last column (Actions)
+            ]
     });
 });
 </script>
