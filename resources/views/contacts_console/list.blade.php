@@ -8,41 +8,66 @@
 
 <!-- DataTables JS -->
 <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
-<section class="w3-padding">
+<div class="container py-5">
 
-    <h2>Contacts Submission</h2>
+    <!-- Title -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="fw-bold">Contact Submissions</h2>
+    </div>
 
-    <table id="contactsTable" class="w3-table w3-striped w3-margin-top">
-        <thead>
-            <tr>
-                <th>Name</th>
-                <th>Email</th>
-                <th>Message</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach($contacts as $contact)
-                <tr>
-                    <td>{{ $contact->full_name }}</td>
-                    <td>{{ $contact->email }}</td>
-                    <td>{{ $contact->message }}</td>
-                </tr>
-            @endforeach
-        </tbody>
-    </table>
+    <!-- Card -->
+    <div class="card shadow-sm border-0">
+        <div class="card-body">
 
-</section>
+            <div class="table-responsive">
+                <table id="contactsTable" class="table table-hover align-middle">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Message</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        @foreach($contacts as $contact)
+                            <tr>
+                                <td class="fw-semibold">{{ $contact->full_name }}</td>
+                                <td>{{ $contact->email }}</td>
+                                <td>
+                                    <span class="text-muted">
+                                        {{ Str::limit($contact->message, 80) }}
+                                    </span>
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+
+                </table>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+<!-- jQuery + DataTables -->
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
 
 <script>
 $(document).ready(function() {
     $('#contactsTable').DataTable({
-        "paging": true,
-        "searching": true,
-        "ordering": true,
-        "order": [[0, "asc"]], // default sort by first column (S.No)
-        "columnDefs": [
-            { "orderable": false, "targets": -1 } // disable sorting on last column (Actions)
-        ]
+        paging: true,
+        searching: true,
+        ordering: true,
+        order: [[0, "asc"]],
+        pageLength: 10,
+        language: {
+            search: "_INPUT_",
+            searchPlaceholder: "Search contacts..."
+        }
     });
 });
 </script>

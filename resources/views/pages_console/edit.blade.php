@@ -2,36 +2,43 @@
 
 @section('content')
 
-<section class="w3-padding">
+<div class="container py-5">
 
-    <h2>Edit Page</h2>
+    <!-- Header -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="fw-bold">Edit Page</h2>
+        <a href="/console/pages/list" class="btn btn-secondary">Back to Pages</a>
+    </div>
 
-    <form method="post" action="/console/pages/edit/{{ $page->id }}" novalidate class="w3-margin-bottom">
+    <!-- Card Form -->
+    <div class="card shadow-sm border-0 rounded-3">
+        <div class="card-body">
 
-        @csrf
+            <form method="post" action="/console/pages/edit/{{ $page->id }}" novalidate>
+                @csrf
 
-        <div class="w3-margin-bottom">
-            <label for="title">Title:</label>
-            <input type="text" name="title" id="title" value="{{ old('title', $page->title) }}" required>
-            @error('title')
-                <br><span class="w3-text-red">{{ $message }}</span>
-            @enderror
+                <div class="mb-3">
+                    <label for="title" class="form-label">Title:</label>
+                    <input type="text" name="title" id="title" value="{{ old('title', $page->title) }}" class="form-control" required>
+                    @error('title')
+                        <div class="text-danger mt-1">{{ $message }}</div>
+                    @enderror
+                </div>
+
+                <div class="mb-3">
+                    <label for="slug" class="form-label">Slug:</label>
+                    <input type="text" name="slug" id="slug" value="{{ old('slug', $page->slug) }}" class="form-control" required>
+                    @error('slug')
+                        <div class="text-danger mt-1">{{ $message }}</div>
+                    @enderror
+                </div>
+
+                <button type="submit" class="btn btn-success">Edit Page</button>
+            </form>
+
         </div>
+    </div>
 
-        <div class="w3-margin-bottom">
-            <label for="slug">Slug:</label>
-            <input type="text" name="slug" id="slug" value="{{ old('slug', $page->slug) }}" required>
-            @error('slug')
-                <br><span class="w3-text-red">{{ $message }}</span>
-            @enderror
-        </div>
-
-        <button type="submit" class="w3-button w3-green">Edit Page</button>
-
-    </form>
-
-    <a href="/console/pages/list">Back to Pages</a>
-
-</section>
+</div>
 
 @endsection
