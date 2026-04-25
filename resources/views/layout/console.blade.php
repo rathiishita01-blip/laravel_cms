@@ -13,7 +13,8 @@
 
     <!-- DataTables CSS -->
 <link rel="stylesheet" href="https://cdn.datatables.net/2.3.7/css/dataTables.dataTables.min.css">
-
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 <!-- jQuery (required for DataTables) -->
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 
@@ -22,7 +23,7 @@
 
     <style>
         body {
-            background-color: #f5f7fa;
+            background-color: #f0f6ff;
         }
 
         .topbar {
@@ -34,6 +35,7 @@
             color: #d1d5db;
             text-decoration: none;
             margin-left: 15px;
+            font-weight: 500;
         }
 
         .topbar a:hover {
@@ -69,14 +71,53 @@
             background: #fee2e2;
             color: #b91c1c;
         }
+
+        
+.adminbar .admin-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+}
+
+.dashboard-section .card{
+    margin: 0;
+}
+
+.table-responsive {
+    overflow-x: visible !important;
+    width: 100%;
+}
+
+@media (max-width:1024px){
+    .table-responsive {
+    overflow-x: auto !important;
+    width: 100%;
+}
+
+.card-body{
+    padding: 0;
+}
+
+}
+
+.table-responsive table{
+    border: 1px solid #dee2e6;
+}
+
+.dataTables_wrapper .dataTables_paginate .paginate_button:hover{
+    background: transparent !important;
+    border: none !important;
+}
+
     </style>
 </head>
 
 <body>
 
     <!-- Top Navigation -->
-    <div class="topbar w3-padding">
-        <div class="container w3-flex w3-justify-between w3-align-center">
+    <div class="adminbar topbar w3-padding">
+        <div class="container admin-nav w3-flex w3-justify-between w3-align-center">
 
             <div class="brand">Admin Console</div>
 
@@ -88,7 +129,7 @@
 
                     <a href="/console/dashboard">Dashboard</a>
                     <a href="/">View Site</a>
-                    <a href="/console/logout" class="w3-text-red">Logout</a>
+                    <a href="/console/logout" class="w3-text-red"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
                 @else
                     <a href="/">Return to Website</a>
                 @endif
@@ -108,7 +149,7 @@
         @endif
 
         <!-- Page Content -->
-        <div class="card">
+        <div class="console-content">
             @yield('content')
         </div>
 

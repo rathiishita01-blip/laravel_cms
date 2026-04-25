@@ -65,16 +65,16 @@
                                     <a class="nav-link" aria-current="page" href="/">Home</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="/about">About us</a>
+                                    <a class="nav-link" href="/about">About Us</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="/facesheet">Face sheet</a>
+                                    <a class="nav-link" href="/facesheet">Face Sheet</a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link" href="/acsm_iec">ACSM / IEC</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="/performance_report">Performance report</a>
+                                    <a class="nav-link" href="/performance_report">Performance Report</a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link" href="/best_practices">Best Practices</a>
@@ -83,7 +83,7 @@
                                     <a class="nav-link" href="/patient_corner">Patient Corner</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="/contact">Contact us</a>
+                                    <a class="nav-link" href="/contact">Contact Us</a>
                                 </li>
                             </ul>
                         </div>
@@ -126,12 +126,13 @@
                     <div class="footer-widget">
                         <h4>Useful Links</h4>
                         <ul>
-                            <li><a href="/about">About us</a></li>
-                            <li><a href="/facesheet">Face sheet</a></li>
+                            <li><a href="/about">About Us</a></li>
+                            <li><a href="/facesheet">Face Sheet</a></li>
                             <li><a href="/acsm_iec">ACSM / IEC</a></li>
-                            <li><a href="/performance_report">Performance report</a></li>
+                            <li><a href="/performance_report">Performance Report</a></li>
                             <li><a href="/best_practices">Best Practices</a></li>
                             <li><a href="/patient_corner">Patient Corner</a></li>
+                            <li><a href="/contact">Contact Us</a></li>
                         </ul>
                     </div>
                 </div>

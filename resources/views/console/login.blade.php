@@ -2,37 +2,65 @@
 
 @section ('content')
 
-<section class="w3-padding">
 
-    <form method="post" action="/console/login" novalidate>
+<div class="container d-flex justify-content-center align-items-center">
+    
+    <div class="card shadow p-4" style="width: 100%; max-width: 400px;">
+        
+        <img src="/assets/images/Main-logo.png" alt="Logo" class="mb-4" style="width: 160px; margin: auto; display: block;">
 
-        @csrf
+        <form method="post" action="/console/login" novalidate>
+            @csrf
 
-        <div class="w3-margin-bottom">
-            <label for="email">Email Address:</label>
-            <input type="email" name="email" id="email" value="{{old('email')}}" required>
-            
-            @if ($errors->first('email'))
-                <br>
-                <span class="w3-text-red">{{$errors->first('email')}}</span>
-            @endif
-        </div>
+            <!-- Email -->
+            <div class="mb-3">
+                <label for="email" class="form-label">Email Address</label>
+                <input 
+                    type="email" 
+                    name="email" 
+                    id="email" 
+                    class="form-control @error('email') is-invalid @enderror"
+                    value="{{ old('email') }}" 
+                    required
+                >
 
-        <div class="w3-margin-bottom">
-            <label for="password">Password:</label>
-            <input type="password" name="password" id="password" required>
+                @error('email')
+                    <div class="invalid-feedback">
+                        {{ $message }}
+                    </div>
+                @enderror
+            </div>
 
-            @if ($errors->first('password'))
-                <br>
-                <span class="w3-text-red">{{$errors->first('password')}}</span>
-            @endif
-        </div>
+            <!-- Password -->
+            <div class="mb-3">
+                <label for="password" class="form-label">Password</label>
+                <input 
+                    type="password" 
+                    name="password" 
+                    id="password" 
+                    class="form-control @error('password') is-invalid @enderror"
+                    required
+                >
 
-        <button type="submit">Log In</button>
+                @error('password')
+                    <div class="invalid-feedback">
+                        {{ $message }}
+                    </div>
+                @enderror
+            </div>
 
-    </form>
+            <!-- Button -->
+            <div class="d-grid">
+                <button type="submit" class="btn btn-primary">
+                    Log In
+                </button>
+            </div>
 
-</section>
+        </form>
+
+    </div>
+
+</div>
 
 @endsection
         
