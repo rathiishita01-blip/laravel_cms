@@ -7,6 +7,7 @@
     $grouped = $page->sections->groupBy('section_key');
 
     $banners = $grouped->get('hero_banner', collect());
+    $homeMarquee = $grouped->get('home_marquee', collect())->first();
     $pm = $grouped->get('pm_yojna', collect())->first();
     $ministry = $grouped->get('ministry', collect())->first();
     $aiia = $grouped->get('aiia', collect())->first();
@@ -102,6 +103,22 @@
 
     </div>
 </section>
+
+@if($homeMarquee && (filled($homeMarquee->title) || filled($homeMarquee->description)))
+    @php
+        $marqueeTextColor = $homeMarquee->text_color ?? '#ffffff';
+        $marqueeBgColor = $homeMarquee->bg_color ?? '#162f6d';
+        $marqueeContent = trim(($homeMarquee->title ? $homeMarquee->title . ' - ' : '') . ($homeMarquee->description ?? ''));
+    @endphp
+    <section class="home-marquee" style="background-color: {{ $marqueeBgColor }};">
+        <div class="home-marquee__track" style="color: {{ $marqueeTextColor }};">
+            <div class="home-marquee__inner">
+                <span class="home-marquee__text">{{ $marqueeContent }}</span>
+                <span class="home-marquee__text" aria-hidden="true">{{ $marqueeContent }}</span>
+            </div>
+        </div>
+    </section>
+@endif
 
 {{-- PM Yojna --}}
 @if($pm)

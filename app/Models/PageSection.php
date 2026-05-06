@@ -10,8 +10,8 @@ class PageSection extends Model
     use HasFactory;
 
     protected $fillable = [
-        'page_id', 'section_key', 'type', 'parent_id', 'title', 
-        'description', 'image', 'pdf', 'videos', 'sort_order'
+        'page_id', 'section_key', 'type', 'parent_id', 'title',
+        'description', 'text_color', 'bg_color', 'image', 'pdf', 'videos', 'sort_order'
     ];
 
     public function page() {
@@ -38,5 +38,10 @@ class PageSection extends Model
 public function media()
 {
     return $this->hasMany(PageSectionMedia::class);
+}
+
+public function highlightItems()
+{
+    return $this->hasMany(PageSectionHighlightItem::class, 'page_section_id')->orderBy('sort_order');
 }
 }

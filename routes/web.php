@@ -29,9 +29,21 @@ use App\Http\Controllers\IdCardController;
 Route::get('/', [HomeController::class, 'index']);
 Route::get('/about', [HomeController::class, 'aboutUs']);
 Route::get('/contact', [HomeController::class, 'contactUs']);
-Route::get('/facesheet', function() {
-    $page = \App\Models\Page::where('slug','facesheet')->first();
-    return view('pages.facesheet', compact('page'));
+Route::get('/factsheet', function() {
+    $page = \App\Models\Page::where('slug', 'factsheet')
+        ->with([
+            'sections' => function ($query) {
+                $query->with([
+                    'images',
+                    'media',
+                    'highlightItems',
+                    'subsections' => function ($subQuery) {
+                        $subQuery->with(['images', 'media', 'highlightItems'])->orderBy('sort_order');
+                    },
+                ])->orderBy('sort_order');
+            },
+        ])->firstOrFail();
+    return view('pages.factsheet', compact('page'));
 });
 
 Route::get('/acsm_iec', function() {

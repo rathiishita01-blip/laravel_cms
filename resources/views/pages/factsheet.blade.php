@@ -9,6 +9,8 @@
     $surveyData     = $grouped->get('survey_data', collect())->first();
     $diagnosticFacilities = $grouped->get('diagnostic_facilities', collect())->first();
     $mouSection           = $grouped->get('mou', collect())->first();
+    $factsheetHighlightsParent = $grouped->get('factsheet_highlights', collect())->first();
+    $factsheetHighlights = $factsheetHighlightsParent ? ($factsheetHighlightsParent->highlightItems ?? collect()) : collect();
 
     if (!function_exists('resolveStorageImage')) {
         function resolveStorageImage($filename) {
@@ -17,6 +19,108 @@
             if ($disk->exists($filename)) return $filename;
             if ($disk->exists('images/'.$filename)) return 'images/'.$filename;
             return null;
+        }
+    }
+
+    if (!function_exists('factsheetNormalizePublicDiskPath')) {
+        function factsheetNormalizePublicDiskPath(?string $path): ?string
+        {
+            if (!$path) {
+                return null;
+            }
+            $path = str_replace('\\', '/', trim($path));
+            $path = ltrim($path, '/');
+            if (strpos($path, 'public/') === 0) {
+                $path = substr($path, strlen('public/'));
+            }
+            if (strpos($path, 'storage/') === 0) {
+                $path = substr($path, strlen('storage/'));
+            }
+            return $path;
+        }
+    }
+
+    if (!function_exists('factsheetResolveStorageRelativePath')) {
+        function factsheetResolveStorageRelativePath(?string $raw): ?string
+        {
+            if (!$raw || !is_string($raw)) {
+                return null;
+            }
+
+            $raw = str_replace('\\', '/', trim($raw));
+
+            if (filter_var($raw, FILTER_VALIDATE_URL)) {
+                $urlPath = parse_url($raw, PHP_URL_PATH);
+                if (is_string($urlPath) && $urlPath !== '') {
+                    $normalizedUrlPath = factsheetNormalizePublicDiskPath($urlPath);
+                    if ($normalizedUrlPath) {
+                        return $normalizedUrlPath;
+                    }
+                }
+                return null;
+            }
+
+            return resolveStorageImage($raw) ?: factsheetNormalizePublicDiskPath($raw);
+        }
+    }
+
+    if (!function_exists('factsheetHighlightImageUrl')) {
+        function factsheetHighlightImageUrl($highlight): ?string
+        {
+            $raw = $highlight->image ?? null;
+            if (!$raw || !is_string($raw)) {
+                return null;
+            }
+            $raw = str_replace('\\', '/', trim($raw));
+            if (filter_var($raw, FILTER_VALIDATE_URL)) {
+                $urlPath = parse_url($raw, PHP_URL_PATH);
+                if (!is_string($urlPath) || $urlPath === '') {
+                    return $raw;
+                }
+                $normalizedUrlPath = factsheetNormalizePublicDiskPath($urlPath);
+                return $normalizedUrlPath ? '/storage/' . ltrim($normalizedUrlPath, '/') : $raw;
+            }
+            $relative = factsheetResolveStorageRelativePath($raw);
+            if (!$relative) {
+                return null;
+            }
+            return '/storage/' . ltrim($relative, '/');
+        }
+    }
+
+    if (!function_exists('factsheetHighlightVideoUrl')) {
+        function factsheetHighlightVideoUrl($highlight): ?string
+        {
+            $raw = $highlight->video_path ?? null;
+            if (!$raw || !is_string($raw)) {
+                return null;
+            }
+            $relative = factsheetResolveStorageRelativePath($raw);
+            return $relative
+                ? '/storage/' . ltrim($relative, '/')
+                : null;
+        }
+    }
+
+    if (!function_exists('extractYoutubeVideoId')) {
+        function extractYoutubeVideoId($url) {
+            if (!$url) return null;
+
+            $patterns = [
+                '/youtu\.be\/([A-Za-z0-9_-]{11})/',
+                '/youtube\.com\/watch\?v=([A-Za-z0-9_-]{11})/',
+                '/youtube\.com\/embed\/([A-Za-z0-9_-]{11})/',
+                '/youtube\.com\/shorts\/([A-Za-z0-9_-]{11})/',
+            ];
+
+            foreach ($patterns as $pattern) {
+                if (preg_match($pattern, $url, $matches)) {
+                    return $matches[1];
+                }
+            }
+
+            parse_str(parse_url($url, PHP_URL_QUERY), $queryParts);
+            return $queryParts['v'] ?? null;
         }
     }
 @endphp
@@ -36,6 +140,78 @@
         </div>
     </div>
 </section>
+
+{{-- ================= FACTSHEET HIGHLIGHTS ================= --}}
+@if($factsheetHighlights->count())
+<section class="factsheet-highlights">
+    <div class="container">
+        <div class="factsheet-highlights__rail">
+            @foreach($factsheetHighlights as $highlight)
+                @php
+                    $imageUrl = factsheetHighlightImageUrl($highlight);
+                    $youtubeId = !empty($highlight->youtube_url) ? extractYoutubeVideoId($highlight->youtube_url) : null;
+                    $youtubeThumb = $youtubeId ? 'https://img.youtube.com/vi/'.$youtubeId.'/hqdefault.jpg' : null;
+                    $fallbackImage = asset('assets/images/page-header-image.webp');
+                    $coverImage = $youtubeThumb ?: ($imageUrl ?: $fallbackImage);
+                    $modalType = $youtubeId ? 'youtube' : (!empty($highlight->video_path) ? 'video' : ($imageUrl ? 'image' : null));
+                @endphp
+
+                @if($modalType)
+                <button class="factsheet-highlight-item"
+                        type="button"
+                        data-bs-toggle="modal"
+                        data-bs-target="#factsheetHighlightModal-{{ $highlight->id }}">
+                    <span class="factsheet-highlight-item__thumb">
+                        <img src="{{ $coverImage }}" alt="{{ $highlight->title ?? 'Highlight' }}">
+                    </span>
+                    <span class="factsheet-highlight-item__label">{{ $highlight->title ?? 'Highlight' }}</span>
+                </button>
+                @endif
+            @endforeach
+        </div>
+    </div>
+</section>
+
+@foreach($factsheetHighlights as $highlight)
+    @php
+        $imageUrl = factsheetHighlightImageUrl($highlight);
+        $youtubeId = !empty($highlight->youtube_url) ? extractYoutubeVideoId($highlight->youtube_url) : null;
+        $modalType = $youtubeId ? 'youtube' : (!empty($highlight->video_path) ? 'video' : ($imageUrl ? 'image' : null));
+    @endphp
+    @if($modalType)
+    <div class="modal fade factsheet-highlight-modal" id="factsheetHighlightModal-{{ $highlight->id }}" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">{{ $highlight->title ?? 'Highlight' }}</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    @if($modalType === 'youtube')
+                        <div class="ratio ratio-16x9">
+                            <iframe src="https://www.youtube.com/embed/{{ $youtubeId }}"
+                                title="{{ $highlight->title ?? 'YouTube video' }}"
+                                allowfullscreen></iframe>
+                        </div>
+                    @elseif($modalType === 'video')
+                        <video controls class="w-100 rounded">
+                            <source src="{{ factsheetHighlightVideoUrl($highlight) }}">
+                            Your browser does not support video playback.
+                        </video>
+                    @elseif($modalType === 'image')
+                        <img src="{{ $imageUrl }}" class="img-fluid rounded" alt="{{ $highlight->title ?? 'Highlight image' }}">
+                    @endif
+
+                    @if(!empty($highlight->description))
+                        <p class="mt-3 mb-0">{!! nl2br(e($highlight->description)) !!}</p>
+                    @endif
+                </div>
+            </div>
+        </div>
+    </div>
+    @endif
+@endforeach
+@endif
 
 
 {{-- ================= TRAINING / WORKSHOP SECTION ================= --}}
@@ -233,12 +409,20 @@
                 
                 @if(!empty($surveyData->videos[0]))
                 <div class="btn-block mt-3">
-                    <a href="{{ $surveyData->videos[0] }}"
+                    <!-- <a href="{{ $surveyData->videos[0] }}"
                        target="_blank"
                        class="primary-btn">
                         Fill Survey Form
                         <i class="ri-arrow-right-up-line"></i>
-                    </a>
+                    </a> -->
+
+<a href="https://docs.google.com/forms/d/e/1FAIpQLSeqoSaOscrrpXqqcqoFY58_MaY4o6-9DEdzP8qs0A9ak-Ujew/viewform"
+   target="_blank"
+   class="primary-btn">
+    Fill Survey Form
+    <i class="ri-arrow-right-up-line"></i>
+</a>
+
                 </div>
                 @endif
             </div>
@@ -248,10 +432,14 @@
                 @if($surveyData->image)
                     @php $qrPath = resolveStorageImage($surveyData->image); @endphp
                     @if($qrPath)
-                    <img src="{{ asset('storage/'.$qrPath) }}"
+                    <!-- <img src="{{ asset('storage/'.$qrPath) }}"
                          class="img-fluid shadow rounded"
                          style="max-width:300px;"
-                         alt="Survey QR Code">
+                         alt="Survey QR Code"> -->
+                         <img src="https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=https://docs.google.com/forms/d/e/1FAIpQLSeqoSaOscrrpXqqcqoFY58_MaY4o6-9DEdzP8qs0A9ak-Ujew/viewform"
+     class="img-fluid shadow rounded"
+     style="max-width:300px;"
+     alt="Survey QR Code">
                     @endif
                 @endif
             </div>
